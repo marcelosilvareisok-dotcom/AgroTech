@@ -9,8 +9,7 @@ import { useAppContext } from '@/contexts/AppContext';
 const categories = ['Todos', 'Sementes', 'Fertilizantes', 'Equipamentos', 'Defensivos'];
 
 export function Store() {
-  const { profile } = useAppContext();
-  const [products, setProducts] = useState<Product[]>([]);
+  const { profile, products, setProducts } = useAppContext();
   const [activeCategory, setActiveCategory] = useState('Todos');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isScanning, setIsScanning] = useState(false);

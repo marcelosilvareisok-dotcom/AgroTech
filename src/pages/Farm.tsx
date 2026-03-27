@@ -4,12 +4,22 @@ import { Crop } from '@/types';
 import { AudioGuide } from '@/components/AudioGuide';
 import { CameraScanner } from '@/components/CameraScanner';
 import { analyzeCropImage } from '@/services/ai';
+import { useAppContext } from '@/contexts/AppContext';
 
 export function Farm() {
-  const [crops, setCrops] = useState<Crop[]>([]);
+  const { crops, setCrops } = useAppContext();
   const [isScanning, setIsScanning] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [isAddingCrop, setIsAddingCrop] = useState(false);
+  const [newCrop, setNewCrop] = useState<Partial<Crop>>({
+    name: '',
+    area: 0,
+    plantedDate: '',
+    harvestDate: '',
+    status: 'Saudável',
+    expectedYield: 0
+  });
 
   const handleScanCrop = async (base64Image: string) => {
     setIsScanning(false);
@@ -25,6 +35,32 @@ export function Farm() {
     }
   };
 
+  const handleAddCrop = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCrop.name || !newCrop.area || !newCrop.plantedDate || !newCrop.harvestDate) return;
+    
+    const crop: Crop = {
+      id: Date.now().toString(),
+      name: newCrop.name,
+      area: Number(newCrop.area),
+      plantedDate: newCrop.plantedDate,
+      harvestDate: newCrop.harvestDate,
+      status: newCrop.status as any,
+      expectedYield: Number(newCrop.expectedYield)
+    };
+    
+    setCrops([...crops, crop]);
+    setIsAddingCrop(false);
+    setNewCrop({
+      name: '',
+      area: 0,
+      plantedDate: '',
+      harvestDate: '',
+      status: 'Saudável',
+      expectedYield: 0
+    });
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <AudioGuide text="Bem-vindo à gestão da sua fazenda. Você pode usar a câmera para escanear folhas, pragas ou plantações e receber uma análise automática com Inteligência Artificial sobre a saúde da sua lavoura." />
@@ -35,6 +71,50 @@ export function Farm() {
           onClose={() => setIsScanning(false)} 
           title="Escanear Plantação/Praga"
         />
+      )}
+
+      {isAddingCrop && (
+        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111] border border-[#333] rounded-2xl w-full max-w-md overflow-hidden">
+            <div className="p-4 border-b border-[#222] flex justify-between items-center">
+              <h3 className="font-bold text-white">Nova Plantação</h3>
+              <button onClick={() => setIsAddingCrop(false)} className="text-gray-500 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleAddCrop} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-1">Cultura</label>
+                <input type="text" required value={newCrop.name} onChange={e => setNewCrop({...newCrop, name: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-2 text-white focus:outline-none focus:border-green-500" placeholder="Ex: Soja, Milho" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-1">Área (ha)</label>
+                <input type="number" required min="0.1" step="0.1" value={newCrop.area || ''} onChange={e => setNewCrop({...newCrop, area: Number(e.target.value)})} className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-2 text-white focus:outline-none focus:border-green-500" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">Data de Plantio</label>
+                  <input type="date" required value={newCrop.plantedDate} onChange={e => setNewCrop({...newCrop, plantedDate: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-2 text-white focus:outline-none focus:border-green-500" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">Colheita Prevista</label>
+                  <input type="date" required value={newCrop.harvestDate} onChange={e => setNewCrop({...newCrop, harvestDate: e.target.value})} className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-2 text-white focus:outline-none focus:border-green-500" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-1">Status</label>
+                <select value={newCrop.status} onChange={e => setNewCrop({...newCrop, status: e.target.value as any})} className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-2 text-white focus:outline-none focus:border-green-500">
+                  <option value="Saudável">Saudável</option>
+                  <option value="Atenção">Atenção</option>
+                  <option value="Colheita">Colheita</option>
+                </select>
+              </div>
+              <button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 rounded-xl transition-colors mt-4">
+                Salvar Plantação
+              </button>
+            </form>
+          </div>
+        </div>
       )}
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
@@ -55,7 +135,7 @@ export function Farm() {
               Escanear Plantação
             </button>
           </div>
-          <button className="flex-1 md:flex-none bg-[#111] border border-[#333] text-white hover:bg-[#1a1a1a] hover:border-green-500/50 px-6 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
+          <button onClick={() => setIsAddingCrop(true)} className="flex-1 md:flex-none bg-[#111] border border-[#333] text-white hover:bg-[#1a1a1a] hover:border-green-500/50 px-6 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
             <Plus className="w-5 h-5" />
             Nova Plantação
           </button>
