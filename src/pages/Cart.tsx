@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trash2, ArrowRight, ShoppingBag, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { AudioGuide } from '@/components/AudioGuide';
 
 const cartItems = [
   {
@@ -32,6 +33,8 @@ export function Cart() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <AudioGuide text="Você está no seu carrinho de compras. Revise os itens e o valor total antes de finalizar o pedido. Você também pode enviar este orçamento diretamente para o Geraldo via WhatsApp." />
+      
       <div>
         <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Carrinho de Compras</h2>
         <p className="text-gray-500 mt-1">Revise seus itens antes de finalizar o pedido.</p>

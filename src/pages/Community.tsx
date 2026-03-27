@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageSquare, ThumbsUp, Share2, User } from 'lucide-react';
+import { AudioGuide } from '@/components/AudioGuide';
 
 const posts = [
   {
@@ -37,6 +38,8 @@ const posts = [
 export function Community() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <AudioGuide text="Bem-vindo à comunidade Agro. Aqui você pode se conectar com outros agricultores, compartilhar experiências, tirar dúvidas e ver o que está acontecendo na região." />
+      
       <div className="flex justify-between items-end">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Comunidade</h2>
