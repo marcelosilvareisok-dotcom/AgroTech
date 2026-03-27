@@ -1,11 +1,44 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Initialize Gemini API
-// O AI Studio injeta a chave automaticamente no process.env.GEMINI_API_KEY
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Lazy initialization to prevent app crash on startup (blank screen) if env vars are missing
+let aiClient: GoogleGenAI | null = null;
+
+function getAI(): GoogleGenAI {
+  if (!aiClient) {
+    let apiKey = '';
+    
+    // Tenta pegar a chave do ambiente do AI Studio ou do Vercel (VITE_)
+    try {
+      if (typeof process !== 'undefined' && process.env && process.env.GEMINI_API_KEY) {
+        apiKey = process.env.GEMINI_API_KEY;
+      }
+    } catch (e) {
+      // Ignore process is not defined error
+    }
+
+    if (!apiKey) {
+      try {
+        if (import.meta.env && import.meta.env.VITE_GEMINI_API_KEY) {
+          apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        }
+      } catch (e) {
+        // Ignore
+      }
+    }
+
+    if (!apiKey) {
+      console.error("Chave da API do Gemini não encontrada. Configure a variável VITE_GEMINI_API_KEY na Vercel.");
+      throw new Error("Chave da API do Gemini não configurada.");
+    }
+    
+    aiClient = new GoogleGenAI({ apiKey });
+  }
+  return aiClient;
+}
 
 export async function analyzeProductImage(base64Image: string) {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: [
@@ -40,6 +73,7 @@ export async function analyzeProductImage(base64Image: string) {
 
 export async function analyzeCropImage(base64Image: string) {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: [
