@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Store, Sprout, Users, Settings, LogOut, X, Share2, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, Store, Sprout, Users, Settings, LogOut, X, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -27,21 +27,24 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Mobile Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/80 z-40 md:hidden transition-opacity backdrop-blur-sm"
           onClick={onClose}
         />
       )}
       
       <aside className={cn(
-        "fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-green-900 text-white flex flex-col transition-transform duration-300 ease-in-out",
+        "fixed md:sticky top-0 left-0 z-50 h-screen w-64 bg-[#0a0a0a] border-r border-[#222] text-white flex flex-col transition-transform duration-300 ease-in-out",
         isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       )}>
         <div className="p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Sprout className="w-8 h-8 text-green-400" />
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full blur opacity-70"></div>
+              <Sprout className="w-8 h-8 text-white relative z-10" />
+            </div>
             <h1 className="text-2xl font-bold tracking-tight">AgroTech</h1>
           </div>
-          <button onClick={onClose} className="md:hidden text-green-200 hover:text-white">
+          <button onClick={onClose} className="md:hidden text-gray-400 hover:text-white">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -54,31 +57,35 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               onClick={onClose}
               className={({ isActive }) =>
                 cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-xl transition-colors',
+                  'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300',
                   isActive
-                    ? 'bg-green-800 text-green-50'
-                    : 'text-green-200 hover:bg-green-800/50 hover:text-white'
+                    ? 'bg-[#1a1a1a] text-white border border-[#333] shadow-[0_0_15px_rgba(255,255,255,0.05)]'
+                    : 'text-gray-400 hover:bg-[#111] hover:text-white border border-transparent'
                 )
               }
             >
-              <item.icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
+              <item.icon className={cn("w-5 h-5", "transition-colors")} />
+              <span className="font-medium tracking-wide text-sm">{item.label}</span>
             </NavLink>
           ))}
           
-          <button 
-            onClick={shareAppOnWhatsApp}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-green-200 hover:bg-[#25D366]/20 hover:text-[#25D366] transition-colors mt-4 border border-transparent hover:border-[#25D366]/30"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span className="font-medium text-left">Convidar Geraldo</span>
-          </button>
+          <div className="pt-4 mt-4 border-t border-[#222]">
+            <div className="relative group cursor-pointer" onClick={shareAppOnWhatsApp}>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
+              <button 
+                className="relative w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-black text-white border border-[#333] transition-colors"
+              >
+                <MessageCircle className="w-5 h-5 text-green-400" />
+                <span className="font-bold text-sm tracking-wide text-left">Convidar Geraldo</span>
+              </button>
+            </div>
+          </div>
         </nav>
 
-        <div className="p-4 mt-auto border-t border-green-800/50">
-          <button className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-green-200 hover:bg-green-800/50 hover:text-white transition-colors">
+        <div className="p-4 mt-auto border-t border-[#222]">
+          <button className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-gray-400 hover:bg-[#111] hover:text-white transition-colors border border-transparent">
             <LogOut className="w-5 h-5" />
-            <span className="font-medium">Sair</span>
+            <span className="font-medium tracking-wide text-sm">Sair</span>
           </button>
         </div>
       </aside>

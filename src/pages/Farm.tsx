@@ -39,18 +39,23 @@ export function Farm() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Minha Fazenda</h2>
-          <p className="text-gray-500 mt-1">Gestão de plantações, áreas e produtividade.</p>
+          <h2 className="text-4xl font-black text-white tracking-tighter">
+            Minha <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">Fazenda</span>
+          </h2>
+          <p className="text-gray-400 mt-2 font-medium">Gestão de plantações, áreas e produtividade.</p>
         </div>
         <div className="flex gap-3 w-full md:w-auto">
-          <button 
-            onClick={() => setIsScanning(true)}
-            className="flex-1 md:flex-none bg-green-100 text-green-700 hover:bg-green-200 px-4 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors"
-          >
-            <Camera className="w-5 h-5" />
-            Escanear Plantação
-          </button>
-          <button className="flex-1 md:flex-none bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors shadow-sm shadow-green-600/20">
+          <div className="relative flex-1 md:flex-none group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
+            <button 
+              onClick={() => setIsScanning(true)}
+              className="relative w-full bg-[#111] text-green-400 hover:text-green-300 border border-[#333] px-4 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors"
+            >
+              <Camera className="w-5 h-5" />
+              Escanear Plantação
+            </button>
+          </div>
+          <button className="flex-1 md:flex-none bg-[#111] border border-[#333] text-white hover:bg-[#1a1a1a] hover:border-green-500/50 px-6 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
             <Plus className="w-5 h-5" />
             Nova Plantação
           </button>
@@ -58,49 +63,52 @@ export function Farm() {
       </div>
 
       {isAnalyzing && (
-        <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm text-center">
-          <div className="w-16 h-16 border-4 border-green-200 border-t-green-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <h3 className="text-xl font-bold text-gray-900">Analisando imagem com Inteligência Artificial...</h3>
-          <p className="text-gray-500 mt-2">Identificando cultura, saúde e possíveis pragas.</p>
+        <div className="bg-[#111] rounded-2xl p-8 border border-[#333] shadow-[0_0_30px_rgba(16,185,129,0.1)] text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-green-500/5 to-transparent"></div>
+          <div className="w-16 h-16 border-4 border-[#222] border-t-green-500 rounded-full animate-spin mx-auto mb-4 relative z-10 shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
+          <h3 className="text-xl font-black text-white relative z-10">Analisando imagem com Inteligência Artificial...</h3>
+          <p className="text-gray-400 mt-2 relative z-10">Identificando cultura, saúde e possíveis pragas.</p>
         </div>
       )}
 
       {analysisResult && (
-        <div className="bg-white rounded-2xl border border-green-100 shadow-sm overflow-hidden animate-in zoom-in-95 duration-300">
-          <div className="bg-green-50 p-4 border-b border-green-100 flex justify-between items-center">
-            <h3 className="font-bold text-green-800 flex items-center gap-2">
+        <div className="bg-[#111] rounded-2xl border border-green-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] overflow-hidden animate-in zoom-in-95 duration-300 relative">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-emerald-600"></div>
+          <div className="bg-[#0a0a0a] p-4 border-b border-[#222] flex justify-between items-center">
+            <h3 className="font-black text-green-400 flex items-center gap-2 tracking-wide uppercase text-sm">
               <Activity className="w-5 h-5" />
               Resultado da Análise IA
             </h3>
-            <button onClick={() => setAnalysisResult(null)} className="text-green-600 hover:bg-green-100 p-1 rounded-lg">
+            <button onClick={() => setAnalysisResult(null)} className="text-gray-500 hover:text-white p-1 rounded-lg hover:bg-[#222] transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
           <div className="p-6 flex flex-col md:flex-row gap-6">
-            <div className="w-full md:w-1/3 h-48 rounded-xl overflow-hidden bg-gray-100 shrink-0">
-              <img src={analysisResult.image} alt="Análise" className="w-full h-full object-cover" />
+            <div className="w-full md:w-1/3 h-48 rounded-xl overflow-hidden bg-[#0a0a0a] shrink-0 border border-[#333] relative">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+              <img src={analysisResult.image} alt="Análise" className="w-full h-full object-cover opacity-80" />
             </div>
             <div className="flex-1 space-y-4">
               <div>
-                <p className="text-sm text-gray-500">Identificação</p>
-                <p className="text-xl font-bold text-gray-900">{analysisResult.name}</p>
+                <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Identificação</p>
+                <p className="text-2xl font-black text-white">{analysisResult.name}</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-3 rounded-xl">
-                  <p className="text-xs text-gray-500 mb-1">Status de Saúde</p>
-                  <p className={`font-bold ${
-                    analysisResult.status === 'Saudável' ? 'text-green-600' : 
-                    analysisResult.status === 'Atenção' ? 'text-amber-500' : 'text-blue-600'
+                <div className="bg-[#0a0a0a] p-4 rounded-xl border border-[#222]">
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Status de Saúde</p>
+                  <p className={`font-black text-lg ${
+                    analysisResult.status === 'Saudável' ? 'text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]' : 
+                    analysisResult.status === 'Atenção' ? 'text-amber-400 drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]' : 'text-blue-400 drop-shadow-[0_0_5px_rgba(96,165,250,0.5)]'
                   }`}>{analysisResult.status}</p>
                 </div>
-                <div className="bg-gray-50 p-3 rounded-xl">
-                  <p className="text-xs text-gray-500 mb-1">Produtividade Est.</p>
-                  <p className="font-bold text-gray-900">{analysisResult.expectedYield} sacas/ha</p>
+                <div className="bg-[#0a0a0a] p-4 rounded-xl border border-[#222]">
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Produtividade Est.</p>
+                  <p className="font-black text-white text-lg">{analysisResult.expectedYield} <span className="text-sm font-medium text-gray-500">sacas/ha</span></p>
                 </div>
               </div>
-              <div className="bg-amber-50 p-4 rounded-xl border border-amber-100">
-                <p className="text-sm font-bold text-amber-800 mb-1">Recomendação da IA:</p>
-                <p className="text-sm text-amber-900">{analysisResult.recommendations}</p>
+              <div className="bg-amber-500/10 p-4 rounded-xl border border-amber-500/30">
+                <p className="text-xs font-black text-amber-400 uppercase tracking-wider mb-2">Recomendação da IA:</p>
+                <p className="text-sm text-gray-300 leading-relaxed">{analysisResult.recommendations}</p>
               </div>
             </div>
           </div>
@@ -109,80 +117,84 @@ export function Farm() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 shadow-sm">
-          <div className="bg-green-100 p-3 rounded-xl text-green-600 shrink-0">
+        <div className="bg-[#111] p-6 rounded-2xl border border-[#333] flex items-start gap-4 shadow-xl hover:border-green-500/30 transition-colors group relative overflow-hidden">
+          <div className="absolute -inset-2 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity blur-xl rounded-full"></div>
+          <div className="bg-green-500/10 p-3 rounded-xl text-green-400 shrink-0 border border-green-500/20 relative z-10">
             <Map className="w-6 h-6" />
           </div>
-          <div>
-            <p className="text-gray-500 text-sm font-medium">Área Total Plantada</p>
-            <h3 className="text-2xl font-black text-gray-900 mt-1">
-              {crops.reduce((acc, crop) => acc + crop.area, 0)} ha
+          <div className="relative z-10">
+            <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Área Total Plantada</p>
+            <h3 className="text-3xl font-black text-white mt-1">
+              {crops.reduce((acc, crop) => acc + crop.area, 0)} <span className="text-lg text-gray-500">ha</span>
             </h3>
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 shadow-sm">
-          <div className="bg-amber-100 p-3 rounded-xl text-amber-600 shrink-0">
+        <div className="bg-[#111] p-6 rounded-2xl border border-[#333] flex items-start gap-4 shadow-xl hover:border-amber-500/30 transition-colors group relative overflow-hidden">
+          <div className="absolute -inset-2 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity blur-xl rounded-full"></div>
+          <div className="bg-amber-500/10 p-3 rounded-xl text-amber-400 shrink-0 border border-amber-500/20 relative z-10">
             <Activity className="w-6 h-6" />
           </div>
-          <div>
-            <p className="text-gray-500 text-sm font-medium">Culturas em Atenção</p>
-            <h3 className="text-2xl font-black text-gray-900 mt-1">
+          <div className="relative z-10">
+            <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Culturas em Atenção</p>
+            <h3 className="text-3xl font-black text-white mt-1">
               {crops.filter(c => c.status === 'Atenção').length}
             </h3>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 flex items-start gap-4 shadow-sm">
-          <div className="bg-blue-100 p-3 rounded-xl text-blue-600 shrink-0">
+        <div className="bg-[#111] p-6 rounded-2xl border border-[#333] flex items-start gap-4 shadow-xl hover:border-blue-500/30 transition-colors group relative overflow-hidden">
+          <div className="absolute -inset-2 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity blur-xl rounded-full"></div>
+          <div className="bg-blue-500/10 p-3 rounded-xl text-blue-400 shrink-0 border border-blue-500/20 relative z-10">
             <Sprout className="w-6 h-6" />
           </div>
-          <div>
-            <p className="text-gray-500 text-sm font-medium">Culturas Ativas</p>
-            <h3 className="text-2xl font-black text-gray-900 mt-1">{crops.length}</h3>
+          <div className="relative z-10">
+            <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Culturas Ativas</p>
+            <h3 className="text-3xl font-black text-white mt-1">{crops.length}</h3>
           </div>
         </div>
       </div>
 
       {/* Crops List */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900">Lotes de Plantio</h3>
+      <div className="bg-[#111] rounded-2xl border border-[#333] shadow-xl overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-700 to-gray-500"></div>
+        <div className="p-6 border-b border-[#222] bg-[#0a0a0a]">
+          <h3 className="text-lg font-black text-white uppercase tracking-wide">Lotes de Plantio</h3>
         </div>
         <div className="overflow-x-auto">
           {crops.length === 0 ? (
-            <div className="text-center py-12">
-              <Sprout className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-              <p className="text-gray-500">Nenhuma plantação registrada ainda.</p>
+            <div className="text-center py-16">
+              <Sprout className="w-16 h-16 mx-auto text-gray-700 mb-4" />
+              <p className="text-gray-500 font-medium">Nenhuma plantação registrada ainda.</p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50/50 text-gray-500 text-sm">
-                  <th className="p-4 font-medium border-b border-gray-100">Cultura</th>
-                  <th className="p-4 font-medium border-b border-gray-100">Área (ha)</th>
-                  <th className="p-4 font-medium border-b border-gray-100">Plantio</th>
-                  <th className="p-4 font-medium border-b border-gray-100">Colheita Prev.</th>
-                  <th className="p-4 font-medium border-b border-gray-100">Status</th>
+                <tr className="bg-[#0a0a0a] text-gray-500 text-xs uppercase tracking-wider border-b border-[#222]">
+                  <th className="p-4 font-bold">Cultura</th>
+                  <th className="p-4 font-bold">Área (ha)</th>
+                  <th className="p-4 font-bold">Plantio</th>
+                  <th className="p-4 font-bold">Colheita Prev.</th>
+                  <th className="p-4 font-bold">Status</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
                 {crops.map((crop) => (
-                  <tr key={crop.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-                    <td className="p-4 font-medium text-gray-900">{crop.name}</td>
-                    <td className="p-4 text-gray-600">{crop.area}</td>
-                    <td className="p-4 text-gray-600">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="w-4 h-4 text-gray-400" />
+                  <tr key={crop.id} className="border-b border-[#222] hover:bg-[#1a1a1a] transition-colors">
+                    <td className="p-4 font-bold text-white">{crop.name}</td>
+                    <td className="p-4 text-gray-400 font-medium">{crop.area}</td>
+                    <td className="p-4 text-gray-400 font-medium">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-gray-500" />
                         {crop.plantedDate}
                       </div>
                     </td>
-                    <td className="p-4 text-gray-600">{crop.harvestDate}</td>
+                    <td className="p-4 text-gray-400 font-medium">{crop.harvestDate}</td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        crop.status === 'Saudável' ? 'bg-green-100 text-green-700' :
-                        crop.status === 'Atenção' ? 'bg-amber-100 text-amber-700' :
-                        'bg-blue-100 text-blue-700'
+                      <span className={`px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider border ${
+                        crop.status === 'Saudável' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                        crop.status === 'Atenção' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                        'bg-blue-500/10 text-blue-400 border-blue-500/20'
                       }`}>
                         {crop.status}
                       </span>

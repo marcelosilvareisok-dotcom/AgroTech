@@ -34,27 +34,31 @@ export function Profile() {
       <AudioGuide text="Bem-vindo ao seu perfil. Aqui você pode alterar seu nome, o nome da sua loja e sua foto de perfil. Lembre-se de salvar as alterações." />
       
       <div>
-        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Meu Perfil</h2>
-        <p className="text-gray-500 mt-1">Gerencie suas informações pessoais e da sua loja.</p>
+        <h2 className="text-4xl font-black text-white tracking-tighter">
+          Meu <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">Perfil</span>
+        </h2>
+        <p className="text-gray-400 mt-2 font-medium">Gerencie suas informações pessoais e da sua loja.</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <form onSubmit={handleSave} className="p-6 md:p-8 space-y-8">
+      <div className="bg-[#111] rounded-2xl border border-[#333] shadow-xl overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-emerald-600"></div>
+        <form onSubmit={handleSave} className="p-6 md:p-8 space-y-8 relative z-10">
           
           {/* Avatar Section */}
           <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
             <div className="relative group">
-              <div className="w-32 h-32 rounded-full bg-green-100 border-4 border-white shadow-lg overflow-hidden flex items-center justify-center">
+              <div className="absolute -inset-2 bg-gradient-to-br from-green-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity blur-xl rounded-full"></div>
+              <div className="w-32 h-32 rounded-full bg-[#0a0a0a] border-4 border-[#222] shadow-2xl overflow-hidden flex items-center justify-center relative z-10 group-hover:border-green-500/50 transition-colors">
                 {avatar ? (
-                  <img src={avatar} alt="Avatar" className="w-full h-full object-cover" />
+                  <img src={avatar} alt="Avatar" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
                 ) : (
-                  <User className="w-16 h-16 text-green-600" />
+                  <User className="w-16 h-16 text-green-500/50 group-hover:text-green-400 transition-colors" />
                 )}
               </div>
               <button 
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute bottom-0 right-0 bg-green-600 text-white p-2.5 rounded-full shadow-lg hover:bg-green-700 transition-colors group-hover:scale-110"
+                className="absolute bottom-0 right-0 bg-[#111] border border-green-500/50 text-green-400 p-2.5 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:bg-[#1a1a1a] hover:text-green-300 hover:scale-110 transition-all z-20"
               >
                 <Camera className="w-5 h-5" />
               </button>
@@ -67,18 +71,18 @@ export function Profile() {
               />
             </div>
             <div className="text-center sm:text-left pt-2">
-              <h3 className="text-xl font-bold text-gray-900">Foto de Perfil</h3>
-              <p className="text-sm text-gray-500 mt-1">Clique no ícone de câmera para alterar sua foto.</p>
+              <h3 className="text-xl font-black text-white">Foto de Perfil</h3>
+              <p className="text-sm text-gray-400 mt-1 font-medium">Clique no ícone de câmera para alterar sua foto.</p>
             </div>
           </div>
 
-          <hr className="border-gray-100" />
+          <hr className="border-[#222]" />
 
           {/* Form Fields */}
           <div className="space-y-5">
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
-                <User className="w-4 h-4 text-gray-400" />
+              <label className="flex items-center gap-2 text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">
+                <User className="w-4 h-4 text-green-500" />
                 Seu Nome
               </label>
               <input 
@@ -86,14 +90,14 @@ export function Profile() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
+                className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:ring-2 focus:ring-green-500/50 focus:border-transparent outline-none transition-all font-medium"
                 placeholder="Ex: João da Silva"
               />
             </div>
 
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5">
-                <StoreIcon className="w-4 h-4 text-gray-400" />
+              <label className="flex items-center gap-2 text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">
+                <StoreIcon className="w-4 h-4 text-green-500" />
                 Nome da sua Loja
               </label>
               <input 
@@ -101,7 +105,7 @@ export function Profile() {
                 value={storeName}
                 onChange={(e) => setStoreName(e.target.value)}
                 required
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
+                className="w-full bg-[#0a0a0a] border border-[#333] rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:ring-2 focus:ring-green-500/50 focus:border-transparent outline-none transition-all font-medium"
                 placeholder="Ex: Agro Silva"
               />
             </div>
@@ -109,26 +113,29 @@ export function Profile() {
 
           {/* Submit Button */}
           <div className="pt-4 flex justify-end">
-            <button 
-              type="submit"
-              className={`px-8 py-3 rounded-xl font-medium flex items-center gap-2 transition-all shadow-sm ${
-                isSaved 
-                  ? 'bg-green-100 text-green-700 hover:bg-green-200' 
-                  : 'bg-green-600 text-white hover:bg-green-700 shadow-green-600/20'
-              }`}
-            >
-              {isSaved ? (
-                <>
-                  <Check className="w-5 h-5" />
-                  Salvo com sucesso!
-                </>
-              ) : (
-                <>
-                  <Save className="w-5 h-5" />
-                  Salvar Alterações
-                </>
-              )}
-            </button>
+            <div className="relative group">
+              <div className={`absolute -inset-0.5 rounded-xl blur opacity-40 transition duration-500 ${isSaved ? 'bg-green-500' : 'bg-gradient-to-r from-green-500 to-emerald-500 group-hover:opacity-70'}`}></div>
+              <button 
+                type="submit"
+                className={`relative px-8 py-3 rounded-xl font-black flex items-center gap-2 transition-all uppercase tracking-wide text-sm ${
+                  isSaved 
+                    ? 'bg-green-500/20 text-green-400 border border-green-500/50' 
+                    : 'bg-[#111] text-green-400 border border-green-500/50 hover:bg-[#1a1a1a]'
+                }`}
+              >
+                {isSaved ? (
+                  <>
+                    <Check className="w-5 h-5" />
+                    Salvo com sucesso!
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-5 h-5" />
+                    Salvar Alterações
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </div>
