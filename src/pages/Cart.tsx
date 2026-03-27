@@ -27,7 +27,7 @@ export function Cart() {
 
   const shareCartOnWhatsApp = () => {
     const itemsText = cartItems.map(item => `- ${item.quantity}x ${item.name}`).join('\n');
-    const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nPreparei um orçamento especial no AgroTech com os insumos que precisamos para a próxima safra:\n\n${itemsText}\n\n*Total estimado: R$ ${total.toFixed(2).replace('.', ',')}*\n\nCom esses produtos, vamos garantir a melhor produtividade para a nossa lavoura. O que acha de fecharmos esse pedido? 🚜🌱`;
+    const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nPreparei um orçamento especial no AgroTech com os insumos que precisamos para a próxima safra:\n\n${itemsText}\n\n*Total estimado: R$ ${total.toFixed(2).replace('.', ',')}*\n\nCom esses produtos, vamos garantir a melhor produtividade para a nossa lavoura. O que acha de fecharmos esse pedido? 🚜🌱\n\nAcesse: https://agro-tech-pi.vercel.app/fazenda`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
   };
 

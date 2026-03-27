@@ -28,7 +28,7 @@ export function Store() {
     : products.filter(p => p.category === activeCategory);
 
   const shareOnWhatsApp = (product: Product) => {
-    const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nVeja essa oferta imperdível na ${profile.storeName} que separei para você:\n\n🚜 *${product.name}*\n💰 Por apenas: *R$ ${product.price.toFixed(2).replace('.', ',')}*\n\nEssa é a oportunidade perfeita para aumentarmos a produtividade da nossa lavoura com o melhor custo-benefício do mercado!\n\nVamos aproveitar?`;
+    const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nVeja essa oferta imperdível na ${profile.storeName} que separei para você:\n\n🚜 *${product.name}*\n💰 Por apenas: *R$ ${product.price.toFixed(2).replace('.', ',')}*\n\nEssa é a oportunidade perfeita para aumentarmos a produtividade da nossa lavoura com o melhor custo-benefício do mercado!\n\nVamos aproveitar?\n\nAcesse: https://agro-tech-pi.vercel.app/fazenda`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
   };
 
