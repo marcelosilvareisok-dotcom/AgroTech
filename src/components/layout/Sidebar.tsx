@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Store, Sprout, Users, Settings, LogOut, X } from 'lucide-react';
+import { LayoutDashboard, Store, Sprout, Users, Settings, LogOut, X, Share2, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -17,6 +17,11 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const shareAppOnWhatsApp = () => {
+    const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nDescobri o *AgroTech*, uma plataforma completa para revolucionar a gestão da nossa fazenda. \n\nLá nós temos acesso a:\n✅ Loja com preços imbatíveis de fábrica\n✅ Gestão inteligente de safra e lotes\n✅ Previsão do tempo e alertas climáticos\n\nVenha fazer parte do futuro do agronegócio com a gente! 🚜🌱`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -60,6 +65,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <span className="font-medium">{item.label}</span>
             </NavLink>
           ))}
+          
+          <button 
+            onClick={shareAppOnWhatsApp}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-green-200 hover:bg-[#25D366]/20 hover:text-[#25D366] transition-colors mt-4 border border-transparent hover:border-[#25D366]/30"
+          >
+            <MessageCircle className="w-5 h-5" />
+            <span className="font-medium text-left">Convidar Geraldo</span>
+          </button>
         </nav>
 
         <div className="p-4 mt-auto border-t border-green-800/50">

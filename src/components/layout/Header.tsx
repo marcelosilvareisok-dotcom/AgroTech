@@ -1,12 +1,15 @@
 import React from 'react';
 import { Bell, Search, ShoppingCart, User, MessageCircle, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '@/contexts/AppContext';
 
 interface HeaderProps {
   onMenuClick: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { profile } = useAppContext();
+
   const shareAppOnWhatsApp = () => {
     const message = `Olá Geraldo Barbosa Marinho! 🌾\n\nDescobri o *AgroTech*, uma plataforma completa para revolucionar a gestão da nossa fazenda. \n\nLá nós temos acesso a:\n✅ Loja com preços imbatíveis de fábrica\n✅ Gestão inteligente de safra e lotes\n✅ Previsão do tempo e alertas climáticos\n\nVenha fazer parte do futuro do agronegócio com a gente! 🚜🌱`;
     window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
@@ -53,15 +56,19 @@ export function Header({ onMenuClick }: HeaderProps) {
           <span className="text-sm">Convidar Geraldo</span>
         </button>
 
-        <div className="flex items-center gap-3 pl-3 md:pl-6 border-l border-gray-200">
+        <Link to="/perfil" className="flex items-center gap-3 pl-3 md:pl-6 border-l border-gray-200 hover:opacity-80 transition-opacity">
           <div className="text-right hidden md:block">
-            <p className="text-sm font-semibold text-gray-900">João Agricultor</p>
-            <p className="text-xs text-gray-500">Fazenda Boa Esperança</p>
+            <p className="text-sm font-semibold text-gray-900">{profile.name}</p>
+            <p className="text-xs text-gray-500">{profile.storeName}</p>
           </div>
-          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-700 flex-shrink-0">
-            <User className="w-5 h-5" />
+          <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-700 flex-shrink-0 overflow-hidden border border-green-200">
+            {profile.avatar ? (
+              <img src={profile.avatar} alt={profile.name} className="w-full h-full object-cover" />
+            ) : (
+              <User className="w-5 h-5" />
+            )}
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );
