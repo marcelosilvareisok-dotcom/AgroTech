@@ -11,19 +11,24 @@ import { Store } from './pages/Store';
 import { Farm } from './pages/Farm';
 import { Community } from './pages/Community';
 import { Cart } from './pages/Cart';
+import { Profile } from './pages/Profile';
+import { AppProvider } from './contexts/AppContext';
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="loja" element={<Store />} />
-          <Route path="fazenda" element={<Farm />} />
-          <Route path="comunidade" element={<Community />} />
-          <Route path="carrinho" element={<Cart />} />
-        </Route>
-      </Routes>
-    </Router>
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="loja" element={<Store />} />
+            <Route path="fazenda" element={<Farm />} />
+            <Route path="comunidade" element={<Community />} />
+            <Route path="carrinho" element={<Cart />} />
+            <Route path="perfil" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AppProvider>
   );
 }
